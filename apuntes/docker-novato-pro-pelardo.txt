@@ -1,0 +1,136 @@
+Primero descargo imagen de postgress:
+    docker pull postgress
+
+luego :
+    docker run postgres 
+me da error me dice introduzca:
+docker run -e POSTGRES_PASSWORD=password postgres
+Y me arranca la imagen de postgres
+
+docker images:
+    Para ver las imagenes que tengo instaladas
+
+docker images | head:
+    me mustre las 1ºs imagenes
+
+docker ps:
+    Nos muestra los contenedores que estamos corriendo
+docker ps -a:
+    Nos muestra los contenedores que corrieron hace un tiempo
+control c:
+    Detener contenedor
+Para encender un contenedor:
+    docker start (nºcontaineID o el nombre) que vemos con docker ps -a)
+Para ver la salida de un contenedor:
+    docker logs 027eba2e8939
+
+//////////////////////
+
+Para ver la salida de un contenedor vemos el log la ultima linea:
+    docker logs -f 027eba2e8939
+
+////////////////////
+
+docker exec:
+    Ejecuta un comando dentro de un contenedor que ya rsta corriendo
+docker run:
+    Ejecuta un cotenedor nuevo a partir de una imagen
+
+////////////////////
+
+Para crearuna terminal interactiva dentro de un contenedor activo:
+    Ejecutmos una shell dentro de este contenedor activo:
+    docker exec -it 34f55e311fa4 sh
+
+//////////////////////
+
+Para detener el contenedor:
+    docker stop 34f55e311fa4
+
+///////////////////
+
+Para encender un contenedor en 2ºplano:
+    docker run -d 027eba2e8939                                                     
+fe6fc4e464c0372ff16535a516d666d559873e12fedf42fc0dc9a109681e8def
+
+$ docker ps(deberiamos de ver encendido?¿):
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+Veriamos la salida del contenedor modo log:
+docker logs -f 027eba2e8939
+
+////////////////////
+
+voy por minuto 22 :
+
+DOCKER De NOVATO a PRO! (CURSO COMPLETO EN ESPAÑOL)
+
+Pelado Nerd
+Pelado Nerd
+
+////////////////////
+
+Eliminar contenedores
+Eliminar uno o más contenedores específicos
+Utilice el comando docker ps con el indicador -a para localizar el nombre o la ID de los contenedores que desee eliminar.
+
+Enumerar:
+
+docker ps -a
+
+Eliminar:
+
+docker rm ID_or_Name ID_or_Name
+
+////////////////////
+
+Eliminar un contenedor al cerrarlo
+Si al crear un contenedor sabe que no querrá conservarlo una vez que lo termine, puede ejecutar docker run --rm para eliminarlo automáticamente después de cerrarlo.
+
+Ejecutar y eliminar:
+    docker run --rm image_name
+
+Eliminar contenedores según un patrón
+Puede encontrar todos los contenedores que coinciden con un patrón utilizando la combinación de docker ps y grep. Cuando esté convencido de que tiene la lista que desea eliminar, podrá utilizar awk y xargs para proporcionar el ID a docker rmi. Tenga en cuenta que Docker no proporciona estas utilidades y que no están necesariamente disponibles en todos los sistemas:
+
+Enumerar:
+
+docker ps -a |  grep "pattern”
+
+Eliminar:
+
+docker ps -a | grep "pattern" | awk '{print $3}' | xargs docker rmi
+
+////////////////////
+
+Eliminar volúmenes
+Eliminar uno o más volúmenes específicos - Docker 1.9 y versiones posteriores
+Utilice el comando docker volume ls para ubicar el nombre o los nombres de los volúmenes que desea eliminar. Luego, puede eliminar uno o más volúmenes con el comando docker volume rm:
+
+docker volume ls
+
+docker volume rm volume_name volume_name
+
+
+////////////////////////////
+/////////////////////////////
+
+Creamos un archivo Dockerfile:
+
+FROM node:12.22.1-alpine3.11
+
+WORKDIR /app
+
+COPY . .
+RUN yarn install --production
+
+CMD ["node", "/app/src/index.js]
+
+
+Para construir un contenedor:
+    docker build -t getting-started .
+    Tenemos nuestra imagen construida de nuestra aplicacion,no la hemos ejecutado.
+
+
+
+

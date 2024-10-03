@@ -1,0 +1,216 @@
+
+Descargamos la imagen dedocker y arrancamos la instancia de mongodb:
+	sudo docker run --rm --name mongo mongo:3.6.22-xenial
+Abrimos otra terminal y nos conectamos a mongo:
+	sudo docker exec -it mongo /bin/bash
+Una vez dentro de bash ponemos:
+	 mongo(y accedemos)
+
+con:
+vemos lasbases dedatos
+ show databases;
+
+Para crear una bases de datos:
+Creamos la base de datos con ese nombre
+use crm
+
+switched to db crm
+> show collections
+> db.getCollectionNames()
+[ ]
+> 
+
+Para añadir valores a la base de datos:
+	db.clientes.insert( { id: 1, nombre: "Juan", tipo: "A", ventas: 150 } )
+	db.clientes.insert( { id: 1, nombre: "David", tipo: "B", ventas: 50 } )
+	db.clientes.insert( { id: 1, nombre: "Roger", tipo: "B", ventas: 250 } )
+	db.clientes.insert( { id: 1, nombre: "Pepe", tipo: "A", ventas: 25 } )
+
+Ver nombre de clientes creados
+> db.getCollectionNames()
+[ "clientes" ]
+> 
+
+
+Para buscar registros creados existentes:
+> db.clientes.find()
+{ "_id" : ObjectId("635babf577855f9ec742db36"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+{ "_id" : ObjectId("635bac6e77855f9ec742db37"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "ventas" : 250 }
+{ "_id" : ObjectId("635bac7e77855f9ec742db38"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+{ "_id" : ObjectId("635bac8c77855f9ec742db39"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "ventas" : 25 }
+> 
+
+Para que nos ordene ascendentemente:
+> db.clientes.find().sort( { nombre: 1 } )
+{ "_id" : ObjectId("635babf577855f9ec742db36"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+{ "_id" : ObjectId("635bac7e77855f9ec742db38"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+{ "_id" : ObjectId("635bac8c77855f9ec742db39"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "ventas" : 25 }
+{ "_id" : ObjectId("635bac6e77855f9ec742db37"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "ventas" : 250 }
+> 
+
+Para que nos ordene descendentemente:
+> db.clientes.find().sort( { nombre: -1 } )
+{ "_id" : ObjectId("635bac6e77855f9ec742db37"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "ventas" : 250 }
+{ "_id" : ObjectId("635bac8c77855f9ec742db39"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "ventas" : 25 }
+{ "_id" : ObjectId("635babf577855f9ec742db36"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+{ "_id" : ObjectId("635bac7e77855f9ec742db38"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+> 
+
+Formato mas legible pretty:
+> db.clientes.find().sort( { nombre: -1 } ).pretty()
+{
+        "_id" : ObjectId("635bac6e77855f9ec742db37"),
+        "id" : 1,
+        "nombre" : "Roger",
+        "tipo" : "B",
+        "ventas" : 250
+}
+{
+        "_id" : ObjectId("635bac8c77855f9ec742db39"),
+        "id" : 1,
+        "nombre" : "Pepe",
+        "tipo" : "A",
+        "ventas" : 25
+}
+{
+        "_id" : ObjectId("635babf577855f9ec742db36"),
+        "id" : 1,
+        "nombre" : "Juan",
+        "tipo" : "A",
+        "ventas" : 150
+}
+{
+        "_id" : ObjectId("635bac7e77855f9ec742db38"),
+        "id" : 1,
+        "nombre" : "Juan",
+        "tipo" : "A",
+        "ventas" : 150
+}
+> 
+
+
+Buscame los clientes que sean de tipo b:
+> db.clientes.find( { tipo: "B" } ).sort( { nombre: -1 } ).pretty()
+{
+        "_id" : ObjectId("635bac6e77855f9ec742db37"),
+        "id" : 1,
+        "nombre" : "Roger",
+        "tipo" : "B",
+        "ventas" : 250
+}
+> 
+
+
+
+De 150 o mas:
+> db.clientes.find( { ventas: { $gte: 150 } } ).sort( { nombre: -1 } ).pretty()
+{
+        "_id" : ObjectId("635bac6e77855f9ec742db37"),
+        "id" : 1,
+        "nombre" : "Roger",
+        "tipo" : "B",
+        "ventas" : 250
+}
+{
+        "_id" : ObjectId("635babf577855f9ec742db36"),
+        "id" : 1,
+        "nombre" : "Juan",
+        "tipo" : "A",
+        "ventas" : 150
+}
+{
+        "_id" : ObjectId("635bac7e77855f9ec742db38"),
+        "id" : 1,
+        "nombre" : "Juan",
+        "tipo" : "A",
+        "ventas" : 150
+}
+> 
+
+UPDATE
+Añadimos campo de apelido a un nombre:
+> db.clientes.update( { id: 3 }, { $set: { apellidos: "Garcia" } } )
+WriteResult({ "nMatched" : 0, "nUpserted" : 0, "nModified" : 0 })
+> 
+> 
+> db.clientes.find()
+{ "_id" : ObjectId("635babf577855f9ec742db36"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+{ "_id" : ObjectId("635bac6e77855f9ec742db37"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "ventas" : 250 }
+{ "_id" : ObjectId("635bac7e77855f9ec742db38"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+{ "_id" : ObjectId("635bac8c77855f9ec742db39"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "ventas" : 25 }
+> 
+
+
+eliminar ususario:
+> db.clientes.remove( { id: 2 } )
+WriteResult({ "nRemoved" : 0 })
+Tengo todos los id 1 y no me deja
+
+Cuantas venta hemos hecho a clientes del tipo A:
+
+db.clientes.aggregate( [ { $match: {} }, { $group: { _id: { tipo: "$tipo" },total: { $sum: "$ventas" } } } ] }
+Me da falo mirar
+
+A documento es un conjunto de pares clave-valor. Tienen un esquema dinámico, lo que significa que los documentos de la misma colección no necesitan tener el mismo conjunto de campos o estructura. Además, los campos comunes en los documentos de una colección pueden contener diferentes tipos de datos.
+
+￼
+En este tutorial, explicaré cómo crear y soltar una base de datos en MongoDB desde la línea de comandos.
+
+ELIMINAR BASE DE DATOS SELECCIONADA:
+Dentro de la base de datos que quiero borrar:
+ db.dropDatabase()
+
+
+Cómo eliminar una colección en MongoDB
+En MongoDB, db.collection.drop () se usa para eliminar una colección de la base de datos. Necesitamos ejecutar este comando dentro de la base de datos.
+
+Cómo realizar copias de seguridad en MongoDB
+Podemos hacer una copia de seguridad de las bases de datos de MongoDB usando el comando «mongodump». Al ejecutar este comando, podemos hacer una copia de seguridad de todas las bases de datos de MongoDB y almacenarlas en una ruta requerida.
+
+$# mongodump --out /home/FullDBbackups
+2016-12-13T06:16:00.665+0000 writing mytestdb.linoxide to
+2016-12-13T06:16:00.667+0000 writing mytestdb.movie to
+2016-12-13T06:16:00.668+0000 writing mytestdb.mycollection to
+2016-12-13T06:16:00.671+0000 writing mytestdb.mycol to
+2016-12-13T06:16:00.671+0000 done dumping mytestdb.linoxide (1 document)
+2016-12-13T06:16:00.674+0000 done dumping mytestdb.movie (1 document)
+2016-12-13T06:16:00.676+0000 done dumping mytestdb.mycollection (0 documents)
+2016-12-13T06:16:00.676+0000 done dumping mytestdb.mycol (0 documents)
+2016-12-13T06:16:00.677+0000 writing sahedb.devops to
+2016-12-13T06:16:00.678+0000 done dumping sahedb.devops (0 documents)
+
+root@mongodb:/home/FullDBbackups# ll
+total 16
+drwxr-xr-x 4 root root 4096 Dec 13 06:16 ./
+drwxr-xr-x 5 root root 4096 Dec 13 06:15 ../
+drwxr-xr-x 2 root root 4096 Dec 13 06:16 mytestdb/
+drwxr-xr-x 2 root root 4096 Dec 13 06:16 sahedb/
+
+Cuando este comando simplemente se ejecuta sin ninguna ruta de directorio de respaldo, entonces creará el respaldo dentro de «/ root / dump» por defecto.
+
+Si queremos hacer una copia de seguridad de una sola base de datos en MongoDB, necesitamos especificar esa base de datos en particular con la opción «-d» o –db=(dbname).
+
+Sintaxis
+mongodump --db=<dbname> --out BACKUP_DIRECTORY
+
+$ mongodump -d sahedb --out /home/
+2016-12-13T06:14:58.650+0000 writing sahedb.devops to
+2016-12-13T06:14:58.651+0000 done dumping sahedb.devops (0 documents)
+
+root@mongodb:/home/sahedb# ls
+devops.bson devops.metadata.json
+
+Cómo restaurar bases de datos en MongoDB
+Puede restaurar los datos de una copia de seguridad en MongoDB usando el comando mongorestore. Este comando restaura todos los datos del directorio de copia de seguridad predeterminado, que es / root / dump de forma predeterminada.
+
+$# mongorestore
+2016-12-13T06:51:23.327+0000 using default 'dump' directory
+2016-12-13T06:51:23.328+0000 building a list of dbs and collections to restore from dump dir
+2016-12-13T06:51:23.333+0000 reading metadata for mytestdb.movie from dump/mytestdb/movie.metadata.json
+2016-12-13T06:51:23.335+0000 restoring mytestdb.movie from dump/mytestdb/movie.bson
+2016-12-13T06:51:23.351+0000 error: E11000 duplicate key error collection: mytestdb.movie index: _id_ dup key: { : ObjectId('584e363461eab97f1e215383') }
+2016-12-13T06:51:23.351+0000 restoring indexes for collection mytestdb.movie from metadata
+2016-12-13T06:51:23.353+0000 finished restoring mytestdb.movie (1 document)
+2016-12-13T06:51:23.354+0000 done
+
+

@@ -1,0 +1,67 @@
+
+1º configuramos puertos con docker y descargamos imagen de mysql:
+
+[ramonetpascualet@fedora ~]$ docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=test1234 -d mysql:latest
+
+2º
+
+Para iniciar contenedo:
+	docker start mysql
+Para parar:
+	docker stop mysql
+
+Para ver contenedores activos:
+	docker ps -a
+
+Despues de iniciar con :
+	docker start mysql
+
+	Creamos una bash en mysql:
+	docker exec -it mysql bash
+	Supuestamente con este comando para entrar a mysql:
+	mysql -u root -ptest1234
+	Pero me falla con mysql estoy dentro de mysql
+	mysql y mysql -uroot accedo a mysql desde la consola de bash creada en el contenedor
+
+Supuestamente con este comando entramos directamente pero no deja:
+	docker exec -it mysql mysql -u root -ptest1234
+
+//////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+Paginapara instalar Anaconda:
+	https://tecadmin.net/how-to-install-anaconda-on-fedora/
+	
+	
+Para ejecutar celda independiente cada una :
+	con shif + intro
+	
+Para iniciar notebook :
+ 	jupyter notebook
+ 	
+ Utilizaremos 4tipos de celdas utilizaremos 3:
+ 	code:
+ 		para hacer calculos y programas
+ 		
+ 	markdown:
+ 		Formatear texto,poner negritas ,hacer mas grande,etc	
+ 		
+ 	Raw NBConvert:
+ 		Dejamos con una operacion pero no seejecuta
+ 		No interpreta nada,dejamos para utilizar mas adelante
+ 	Si pulsamos dos veces la d en una celda con color azul se borra,
+ 	si pulsamos la tecla b se genera una elda abajo,
+ 	si pulsamos a o b generamos celdas,
+ 	Para ejecutar celda con run o shift mas enter
+ 	Si tenemos un coodigo quetarda 20minutos y no tenemos tiempo con stop paramos,
+ 	El boton reiniciar para arreglar el kernel si se ha roto y borra las variables previamentee asignadas
+ 	Las dos flechas a derecha: resetea el kernel y ejecutar todas las celdas desde el princicpio del notebook otra vez(para limpiar ejecutar todode nuevo)
+ 	
+ 	help panel :tema de atajos y extensiones hemos activado,
+ 	show solution: para ver el resultado de los ejercicios u ocultar
+ 	table of contents:
+ 		para ir a la celda que queramos vemos en la parte izquierda
+ 		
+ 		
+ 		
+ 	

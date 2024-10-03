@@ -1,0 +1,11 @@
+Creo carpeta
+mkdir entornos
+
+virtualenv miEntorno1
+
+Para activar entorno:
+ source miEntorno1/bin/activate
+ o voy a bin : source activate
+
+
+

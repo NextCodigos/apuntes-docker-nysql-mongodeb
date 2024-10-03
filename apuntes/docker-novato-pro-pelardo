@@ -1,0 +1,22 @@
+Primero descargo imagen de postgress:
+    docker pull postgress
+
+luego :
+    docker run postgres 
+me da error me dice introduzca:
+docker run -e POSTGRES_PASSWORD=password postgres
+Y me arranca la imagen de postgres
+
+
+┌─[ramonetpascualet@fedora] - [~] - [2022-10-29 11:15:55]
+└─[0] <> docker images | head
+REPOSITORY    TAG             IMAGE ID       CREATED         SIZE
+postgres      latest          027eba2e8939   4 days ago      377MB
+mysql         latest          8fad08b3c84b   7 days ago      535MB
+hello-world   latest          feb5d9fea6a5   13 months ago   13.3kB
+mongo         3.6.22-xenial   b38f112c708c   20 months ago   447MB
+grep: /home/ramonetpascualet/.hgrc: No existe el fichero o el directorio                                                                               
+┌─[ramonetpascualet@fedora] - [~] - [2022-10-29 11:16:55]
+└─[0] <> grep: /home/ramonetpascualet/.hgrc: No existe el fichero o el dire┌─[ramonetpascualet@fedora] - [~] - [2022-10-29 11:17:13]
+└─[0] <> 
+
